@@ -1,0 +1,71 @@
+前面章节介绍了很多关于如何使用drools基于facts做决定的例子。本章节主要用来介绍drools如何处理CEP事件，即看看drools如何基于事件之间的事件关系做决定。
+
+本章主要包括3部分：
+1第一部分介绍CEP相关的各类概念如：复杂事件系统，时间窗，entry points，time operations
+
+2.drools在面对事件流的时候是如何工作的
+
+3.drools的各项高级特性
+
+第一部分：
+
+什么是CEP？
+CEP:complex event processing
+
+什么是events？什么是复杂events？
+events和facts非常相似，不同之处在于events会多一个time属性，用来标记发生时间。
+对facts的处理主要用来做大量的数据分析。然而对events的处理，主要用来做预测。例如，通过地面传感器随着时间的变化传回来的不同数据可以预测地震等。
+
+events分类：
+瞬时事件：生命周期短到可以忽略不计的事件被称为瞬时事件。
+延续性事件：即该事件有两个事件相关联，开始时间和结束时间。
+
+无论是瞬时事件还是延续性事件，他们应该至少具备两个概念上的特点：不可更改性，即对已经发生的event只能添加额外的信息，不能对原有的信息修改；2.他们的使命周期都是会被drools管控的。
+
+如何在drools中定义一个event
+
+在drl中的定义如下：
+
+declare event
+  @role(event)
+  @timestamp(whenDidWeReceiveTheCall)
+  @duration(hongLongWasTheCall)
+  @expires(2h30m)
+end
+
+等同于在java bean中的定义如下：
+@org.kie.api.definition.type.Role(Role.Type.EVENT)
+@org.kie.api.definition.type.Duration("durationAttr")
+@org.kie.api.definition.type.Timestamp("executionTime")
+@org.kie.api.definition.type.Expires("2h30m")
+public class TransactionEvent implements Serializable {
+	private Date executionTime;
+	private Long durationAttr;
+	/* class content skipped */
+}
+
+
+1.role type，是必须被定义的成event。在drools中只有fact和event两个选项，且默认为fact
+
+2.timestamp,定义事件发生时间，参数为Date类型。默认不填，则以event插入drools的事件为准。
+
+3.duration，定义事件发生的持续时间。参数为LONG型。默认不填则被认为是瞬时事件。
+
+4.expires,定义垃圾回收时间。
+
+
+时间比较运算
+
+ 
+
+事件驱动框架
+
+ksession.fireUntilHalt();
+
+
+
+
+
+
+
+
