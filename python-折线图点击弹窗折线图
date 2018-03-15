@@ -1,0 +1,18 @@
+弹窗
+
+import matplotlib.pyplot as plt
+
+x1 = range(0, 10)
+y1 = range(10, 30, 2)[0:10]
+y2=range(20,10,-1)[0:10]
+fig ,ax= plt.subplots()
+ax.plot(x1,y1)
+def call_back(event):
+    # ax.plot(x1, y2)
+    fig1, ax1 = plt.subplots()
+    ax1.plot(x1,y2)
+    plt.show()
+
+fig.canvas.mpl_connect('button_press_event', call_back)
+
+plt.show()
