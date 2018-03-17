@@ -1,0 +1,42 @@
+import matplotlib.pyplot as plt
+
+x1 = range(0, 10)
+y1 = range(10, 30, 2)[0:10]
+y2 = range(20, 10, -1)[0:10]
+fig, ax = plt.subplots()
+ax.plot(x1, y1, marker='o',label="lin1")
+ax.plot(x1, y2, marker='o',label="lin2")
+# fig.text(0,0,str('connect me!!'))
+# ax.text(1,12,str(12))
+ann = ax.annotate(str(12) + " (" + str(-60) + ")",
+                  xy=(1, 12), xycoords='data',
+                  xytext=(4, 12), textcoords='data',
+                  size=20, va="center", ha="center",
+                  bbox=dict(boxstyle="round4", fc="w"),
+                  arrowprops=dict(arrowstyle="-|>",
+                                  connectionstyle="arc3,rad=-0.2",
+                                  fc="w"),
+                  )
+
+leg = plt.legend(loc='best', ncol=2, mode="expand", shadow=True, fancybox=True)
+leg.get_frame().set_alpha(0.5)
+
+
+def call_back(event):
+    # ax.plot(x1, y2)
+    if event.button==1:
+        #左键点击
+        pass
+    elif event.button==2:
+        # 滑轮点击
+        pass
+    elif event.button==3:
+        #右键点击
+        fig1, ax1 = plt.subplots()
+        ax1.plot(x1, y2)
+        plt.show()
+        pass
+
+fig.canvas.set_window_title('Window Title')
+fig.canvas.mpl_connect('button_press_event', call_back)
+plt.show("test1")
